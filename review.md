@@ -4,7 +4,8 @@
 
 ### Todoモデルのallメソッドで実行しているSQLは何か
 
-紐づくテーブルのレコード情報を全件取得できる
+$todo = new Todo();
+$todos = $todo->all();
 
 ### Todoモデルのallメソッドの返り値は何か
 
@@ -16,10 +17,13 @@ Illuminate\Database\Eloquent\Collectionクラスのインスタンス
 
 ### view関数の第1・第2引数の指定と何をしているか
 
-'todo.index', ['todos' => $todos]
+bladeファイルを第一引数で指定
+第二引数に渡したいデータを連想配列の形で渡す
 
 ### index.blade.phpの$todos・$todoに代入されているものは何か
-new TodoとTodoインスタンス
+
+$todosには、Controllerにて取得したCollectionインスタンスが代入されている
+Collectionインスタンスに格納されているTodoインスタンスを一つずつ$todoとして取り出している
 
 ## Todo作成機能
 
@@ -29,7 +33,7 @@ new TodoとTodoインスタンス
 
 ### fillメソッドは何をしているか
 
-Todoインスタンスの各プロパティに一括で代入
+Modelの->fill()を使用することで引数に指定した連想配列を一括代入できる
 
 ### $fillableは何のために設定しているか
 
@@ -37,7 +41,9 @@ Todoインスタンスの各プロパティに一括で代入
 
 ### saveメソッドで実行しているSQLは何か
 
-オブジェクトの状態をDBに保存するINSEERT文を実行（新規作成）
+ $todo = new Todo();
+ $todo->fill($inputs);
+ $todo->save();
 
 ### redirect()->route()は何をしているか
 
@@ -51,9 +57,8 @@ Todoインスタンスの各プロパティに一括で代入
 
 ### マイグレーションファイルのup()、down()は何のコマンドを実行した時に呼び出されるのか
 
-up:データベースに新しいテーブル、カラム、またはインデックスを追加するために使用
-
-down:upメソッドの逆の操作としてtodosテーブルを削除する実装がされている
+upはphp artisan migrateコマンドを実行
+downはphp artisan migrate:rollbackコマンドを実行
 
 ### Seederクラスの役割は何か
 
@@ -61,7 +66,9 @@ down:upメソッドの逆の操作としてtodosテーブルを削除する実�
 
 ### route関数の引数・返り値・使用するメリット
 
-ルートに対応するURLを生成することができる
+引数には何を渡すのか？→ルート名　例：route('todo.create')
+返り値は何が返ってくるのか？→ルートで設定したURLを生成　例：http://localhost:8080/todo/create
+使用するメリット→Blade内のURLの記述が簡潔になり可読性が向上。またURLに変更がある場合でも、ルート名さえ変わらなければ修正箇所はweb.phpのみで済むため、保守性も向上する。
 
 ### @extends・@section・@yieldの関係性とbladeを分割するメリット
 
@@ -76,6 +83,7 @@ Bladeファイルを継承することができる
 ### @csrfは何のための記述か
 
 CSRF攻撃を防ぐための記述
+CSRF対策のためのトークンが含まれたinputタグが生成されている
 
 ### {{ }}とは何の省略系か
 
