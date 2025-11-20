@@ -8,7 +8,7 @@
               <div class="card-body">
                 <!-- TODO: method・action属性を記述 -->
                 <form method="post" action="{{ route('todo.store') }}">
-                    @csrf <!-- 追記 -->
+                    @csrf
                     <div class="form-group row">
                         <label for="name" class="col-md-4 col-form-label text-md-right">ToDo入力</label>
                         <div class="col-md-6">
